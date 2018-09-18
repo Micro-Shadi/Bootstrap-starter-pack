@@ -1,0 +1,29 @@
+{
+  "name": "bootstrap-starter-pack",
+  "version": "1.0.0",
+  "description": "A build starter pack for bootstrap apps.",
+  "main": "index.html",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Micro-Shadi/Bootstrap-starter-pack.git"
+  },
+  "keywords": [
+    "Bootstrap",
+    "npm",
+    "package",
+    "gulp",
+    "tools"
+  ],
+  "author": "Shadi Abo Oun",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Micro-Shadi/Bootstrap-starter-pack/issues"
+  },
+  "homepage": "https://github.com/Micro-Shadi/Bootstrap-starter-pack#readme",
+  "dependencies": {
+    "bootstrap": "^4.1.3"
+  }
+}
