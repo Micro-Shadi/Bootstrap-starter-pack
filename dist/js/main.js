@@ -1,0 +1,1 @@
+console.log("smth"),console.log("smth 2"),console.log("app 2 file");
