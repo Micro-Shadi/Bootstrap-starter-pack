@@ -3,6 +3,8 @@ const sass = require('gulp-sass');
 const concat = require('gulp-concat');
 const purgecss = require('gulp-purgecss');
 const uglify = require('gulp-uglify');
+const runSequence = require('run-sequence');
+var browserSync = require('browser-sync').create();
 
 /*
   Top level fucntions
@@ -14,52 +16,66 @@ const uglify = require('gulp-uglify');
 
 // Copying bootstrap files
 gulp.task('bootstrap', function(){
-  console.log('Copying bootstrap files into src');
-  gulp.src('node_modules/bootstrap/scss/*.scss')
-      .pipe(gulp.dest('src/sass'));
-  gulp.src('node_modules/bootstrap/scss/mixins/*.scss')
-      .pipe(gulp.dest('src/sass/mixins'));
-  gulp.src('node_modules/bootstrap/scss/utilities/*.scss')
-      .pipe(gulp.dest('src/sass/utilities'));
-  gulp.src('node_modules/bootstrap/dist/js/bootstrap.bundle.min.js')
+  return gulp.src('node_modules/bootstrap/dist/js/bootstrap.bundle.min.js')
       .pipe(gulp.dest('src/js'));
 });
 
 // Copy All HTML files
 gulp.task('copyHtml', function(){
-  gulp.src('src/*.html')
+  return gulp.src('src/*.html')
       .pipe(gulp.dest('dist'));
-});
-
-// PurgeCSS 
-gulp.task('purgecss', function(){
-  gulp.src('src/sass/*.scss')
-      .pipe(purgecss({
-        content: ['src/*.html']
-      }))
-      .pipe(gulp.dest('tmp/sass'));
 });
 
 // Compile Sass
 gulp.task('sass', function(){
-  gulp.src('tmp/sass/*.scss')
+  return gulp.src('src/sass/*.scss')
       .pipe(sass().on('error', sass.logError))
+      .pipe(gulp.dest('tmp/css'));
+});
+
+// PurgeCSS 
+gulp.task('purgecss', function(){
+  return gulp.src('tmp/css/*.css')
+      .pipe(purgecss({
+        content: ['dist/*.html']
+      }))
       .pipe(gulp.dest('dist/css'));
 });
 
-// Concat & Minify JS
-gulp.task('scripts', function(){
-  gulp.src('src/js/*.js')
+// Minify JS
+gulp.task('minifyjs', function(){
+  return gulp.src('src/js/*.js')
       .pipe(uglify())
+      .pipe(gulp.dest('tmp/js'));
+});
+
+// Concat JS
+gulp.task('concat', function(){
+  return gulp.src('tmp/js/*.js')
+      .pipe(concat('app.min.js'))
       .pipe(gulp.dest('dist/js'));
 });
 
+// Static Server + watching scss/html files
+gulp.task('serve', function() {
+
+  browserSync.init({
+      server: "./dist"
+  });
+
+  gulp.watch("src/sass/*.scss", ['sass', 'purgecss']).on('change', browserSync.reload);
+  gulp.watch("src/*.html", ['copyHtml']).on('change', browserSync.reload);
+});
+
 // gulp default
-gulp.task('default', ['bootstrap', 'copyHtml', 'sass', 'purgecss', 'scripts']);
+/*gulp.task('default', [ 'copyHtml', 'sass', 'purgecss', 'minifyjs', 'concat']); */
+gulp.task('build', function() {
+  runSequence('bootstrap', 'copyHtml', 'sass', 'purgecss', 'minifyjs', 'concat');
+});
 
 // gulp Watch
 gulp.task('watch', function(){
-  gulp.watch('src/js/*.js', ['scripts']);
-  gulp.watch('src/sass/*.scss', ['purgecss', 'sass']);
+  gulp.watch('src/js/*.js', ['minifyjs', 'concat']);
+  gulp.watch('src/sass/*.scss', ['sass', 'purgecss']);
   gulp.watch('src/*.html', ['copyHtml']);
 })

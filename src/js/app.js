@@ -1,5 +1,3 @@
-// code 1
-console.log('smth');
+console.log('hyo');
 
-// code 2
-console.log('smth 2');
+// test
