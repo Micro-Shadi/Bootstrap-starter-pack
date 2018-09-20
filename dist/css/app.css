@@ -1,11 +1,6 @@
 body {
-  background: #ccc; }
+  background: #f1f1f1;
+  position: relative; }
 
 p {
   color: red; }
-
-.class1 {
-  color: blue; }
-
-.class2 {
-  color: #000; }
