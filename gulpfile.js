@@ -4,15 +4,17 @@ const concat = require('gulp-concat');
 const purgecss = require('gulp-purgecss');
 const uglify = require('gulp-uglify');
 const runSequence = require('run-sequence');
-var browserSync = require('browser-sync').create();
+const browserSync = require('browser-sync').create();
+const image = require('gulp-image');
+const cleanCSS = require('gulp-clean-css');
+const rename = require("gulp-rename");
 
-/*
-  Top level fucntions
-  gulp.task - Define tasks
-  gulp.src - Point to fules to use
-  gulp.dest - Points to folder to output
-  gulp.watch - Watch files and folders for changes
-*/
+// Images compress
+gulp.task('image', function(){
+  gulp.src('src/images/*')
+    .pipe(image())
+    .pipe(gulp.dest('dist/images'));
+});
 
 // Copying bootstrap files
 gulp.task('bootstrap', function(){
@@ -33,12 +35,14 @@ gulp.task('sass', function(){
       .pipe(gulp.dest('tmp/css'));
 });
 
-// PurgeCSS 
+// PurgeCSS
 gulp.task('purgecss', function(){
   return gulp.src('tmp/css/*.css')
       .pipe(purgecss({
         content: ['dist/*.html']
       }))
+      .pipe(cleanCSS({compatiblity: 'ie8'}))
+      .pipe(rename("style.min.css"))
       .pipe(gulp.dest('dist/css'));
 });
 
@@ -46,6 +50,7 @@ gulp.task('purgecss', function(){
 gulp.task('minifyjs', function(){
   return gulp.src('src/js/*.js')
       .pipe(uglify())
+      .pipe(rename("main.min.js"))
       .pipe(gulp.dest('tmp/js'));
 });
 
@@ -56,15 +61,16 @@ gulp.task('concat', function(){
       .pipe(gulp.dest('dist/js'));
 });
 
-// Static Server + watching scss/html files
+// Static Server > watching SCSS/HTML/JS files
 gulp.task('serve', function() {
 
   browserSync.init({
       server: "./dist"
   });
 
-  gulp.watch("src/sass/*.scss", ['sass', 'purgecss']).on('change', browserSync.reload);
-  gulp.watch("src/*.html", ['copyHtml']).on('change', browserSync.reload);
+  gulp.watch('src/js/*.js', function(){ runSequence('minifyjs', 'concat')}).on('change', browserSync.reload);
+  gulp.watch('src/sass/*.scss', function(){ runSequence('sass', 'purgecss')}).on('change', browserSync.reload);
+  gulp.watch('src/*.html', function(){ runSequence('copyHtml')}).on('change', browserSync.reload);
 });
 
 // gulp default
@@ -72,10 +78,3 @@ gulp.task('serve', function() {
 gulp.task('build', function() {
   runSequence('bootstrap', 'copyHtml', 'sass', 'purgecss', 'minifyjs', 'concat');
 });
-
-// gulp Watch
-gulp.task('watch', function(){
-  gulp.watch('src/js/*.js', ['minifyjs', 'concat']);
-  gulp.watch('src/sass/*.scss', ['sass', 'purgecss']);
-  gulp.watch('src/*.html', ['copyHtml']);
-})

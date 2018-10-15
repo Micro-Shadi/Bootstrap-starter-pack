@@ -3,38 +3,31 @@
 @import "../../node_modules/bootstrap/scss/mixins";
 
 @import "../../node_modules/bootstrap/scss/reboot";
-@import "../../node_modules/bootstrap/scss/type";
-@import "../../node_modules/bootstrap/scss/images";
-@import "../../node_modules/bootstrap/scss/code";
 @import "../../node_modules/bootstrap/scss/grid";
+@import "../../node_modules/bootstrap/scss/carousel";
+@import "../../node_modules/bootstrap/scss/forms";
+@import "../../node_modules/bootstrap/scss/images";
+@import "../../node_modules/bootstrap/scss/nav";
+@import "../../node_modules/bootstrap/scss/navbar";
+@import "../../node_modules/bootstrap/scss/popover";
+@import "../../node_modules/bootstrap/scss/tooltip";
+@import "../../node_modules/bootstrap/scss/transitions";
+@import "../../node_modules/bootstrap/scss/utilities";
+@import "../../node_modules/bootstrap/scss/buttons";
+@import "../../node_modules/bootstrap/scss/type";
+@import "../../node_modules/bootstrap/scss/bootstrap-grid";
+@import "../../node_modules/bootstrap/scss/modal";
+@import "../../node_modules/bootstrap/scss/close";
+@import "../../node_modules/bootstrap/scss/popover";
+@import "../../node_modules/bootstrap/scss/tooltip";
+@import "../../node_modules/bootstrap/scss/dropdown";
 
-/* My styles */
-$bgcolor: #000;
 
-body {
-  background: $bgcolor;
-  color: #fff;
-}
 
-p {
-  color: red;
-}
-li {
-  color: blue;
-}
 
-.col-md-6 {
-  border: 1px solid tomato;
-}
-.col-md-5 {
-  border: 1px solid blue;
-}
-.col-md-4 {
-  border: 1px solid green;
-}
-.col-md-3 {
-  border: 1px solid yellow;
-}
-.col-md-2 {
-  border: 1px solid violet;
-}
+/*=============================================
+=                  my styles                  =
+=============================================*/
+
+/*=====  End of my styles  ======*/
+
