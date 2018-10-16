@@ -1,0 +1,12 @@
+/*=============================================
+=                    reset                    =
+=============================================*/
+*, :after, :before {
+    position: relative;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    background-repeat: no-repeat;
+    -webkit-transition: all 0.25s;
+    transition: all 0.25s;
+  }
+  /*=====  End of reset  ======*/

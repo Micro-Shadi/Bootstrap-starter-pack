@@ -1,7 +1,9 @@
+// Bootstrap - essentioal
 @import "../../node_modules/bootstrap/scss/functions";
 @import "../../node_modules/bootstrap/scss/variables";
 @import "../../node_modules/bootstrap/scss/mixins";
 
+// Bootstrap - optional
 @import "../../node_modules/bootstrap/scss/reboot";
 @import "../../node_modules/bootstrap/scss/grid";
 @import "../../node_modules/bootstrap/scss/carousel";
@@ -22,12 +24,10 @@
 @import "../../node_modules/bootstrap/scss/tooltip";
 @import "../../node_modules/bootstrap/scss/dropdown";
 
+// Componenets
+@import "components/reset";
 
+// Pages
+@import "pages/home";
 
-
-/*=============================================
-=                  my styles                  =
-=============================================*/
-
-/*=====  End of my styles  ======*/
 

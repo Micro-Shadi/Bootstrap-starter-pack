@@ -69,12 +69,13 @@ gulp.task('serve', function() {
   });
 
   gulp.watch('src/js/*.js', function(){ runSequence('minifyjs', 'concat')}).on('change', browserSync.reload);
-  gulp.watch('src/sass/*.scss', function(){ runSequence('sass', 'purgecss')}).on('change', browserSync.reload);
-  gulp.watch('src/*.html', function(){ runSequence('copyHtml')}).on('change', browserSync.reload);
+  gulp.watch(['src/sass/*.scss', 'src/sass/**/*.scss'], function(){ runSequence('sass', 'purgecss')}).on('change', browserSync.reload);
+  gulp.watch('src/*.html', function(){ runSequence('copyHtml', 'sass', 'purgecss')}).on('change', browserSync.reload);
 });
 
-// gulp default
-/*gulp.task('default', [ 'copyHtml', 'sass', 'purgecss', 'minifyjs', 'concat']); */
+/* gulp.task('default', [ 'copyHtml', 'sass', 'purgecss', 'minifyjs', 'concat']); */
+
+// build
 gulp.task('build', function() {
-  runSequence('bootstrap', 'copyHtml', 'sass', 'purgecss', 'minifyjs', 'concat');
+  runSequence('bootstrap', 'copyHtml', 'image', 'sass', 'purgecss', 'minifyjs', 'concat');
 });
